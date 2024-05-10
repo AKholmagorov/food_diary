@@ -44,7 +44,7 @@ class _FoodDiaryColorfulSliderState extends State<FoodDiaryColorfulSlider> {
       children: [
         Container(
           alignment: Alignment.centerLeft,
-          width: 85,
+          width: 90,
           margin: EdgeInsets.only(left: 16),
           child: Text('${widget.title}', style: _currentTitleStyle),
         ),

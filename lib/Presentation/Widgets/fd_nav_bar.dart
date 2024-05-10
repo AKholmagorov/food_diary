@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food_diary/Presentation/Screens/screen_ai.dart';
+import 'package:food_diary/Presentation/Screens/screen_calendar.dart';
 import 'package:food_diary/Presentation/Screens/screen_home.dart';
 
 class FoodDiaryNavBar extends StatefulWidget {
@@ -15,14 +17,9 @@ class _FoodDiaryNavBarState extends State<FoodDiaryNavBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: [
-        Center(child: Text('Calendar')),
-        SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.all(10),
-            child: FoodDiaryExpansionPanel()
-          )
-        ),
-        Center(child: Text('AI'))
+        ScreenCalendar(),
+        ScreenHome(),
+        ScreenAI()
       ][currentIndex],
       bottomNavigationBar: NavigationBar(
         backgroundColor: Colors.black,
@@ -34,37 +31,37 @@ class _FoodDiaryNavBarState extends State<FoodDiaryNavBar> {
         },
         destinations: [
           NavigationDestination(
+            label: 'Calendar',
             icon: Icon(
-                size: 48,
-                Icons.calendar_month,
-                color: Colors.white.withOpacity(0.5)),
+              size: 48,
+              Icons.calendar_month,
+              color: Colors.white.withOpacity(0.5)),
             selectedIcon: Icon(
-                size: 48,
-                Icons.calendar_month,
-                color: Colors.white),
-            label: 'Calendar'
+              size: 48,
+              Icons.calendar_month,
+              color: Colors.white),
           ),
           NavigationDestination(
-              icon: Icon(
-                  size: 48,
-                  Icons.home,
-                  color: Colors.white.withOpacity(0.5)),
-              selectedIcon: Icon(
-                  size: 48,
-                  Icons.home,
-                  color: Colors.white),
-              label: 'Home'
+            label: 'Home',
+            icon: Icon(
+              size: 48,
+              Icons.home,
+              color: Colors.white.withOpacity(0.5)),
+            selectedIcon: Icon(
+              size: 48,
+              Icons.home,
+              color: Colors.white),
           ),
           NavigationDestination(
-              icon: Icon(
-                  size: 48,
-                  Icons.biotech_rounded,
-                  color: Colors.white.withOpacity(0.5)),
-              selectedIcon: Icon(
-                  size: 48,
-                  Icons.biotech_rounded,
-                  color: Colors.white),
-              label: 'AI'
+            label: 'AI',
+            icon: Icon(
+              size: 48,
+              Icons.biotech_rounded,
+              color: Colors.white.withOpacity(0.5)),
+            selectedIcon: Icon(
+              size: 48,
+              Icons.biotech_rounded,
+              color: Colors.white),
           ),
         ],
       ),

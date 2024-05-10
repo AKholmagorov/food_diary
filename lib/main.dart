@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:food_diary/Presentation/Widgets/fd_nav_bar.dart';
+import 'package:food_diary/Presentation/Widgets/utils/theme_constants.dart';
 
 void main() {
-  // runApp(app);
+  runApp(AppEntryPoint());
 }
 
 class AppEntryPoint extends StatelessWidget {
@@ -10,7 +12,10 @@ class AppEntryPoint extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-
+      debugShowCheckedModeBanner: false,
+      darkTheme: foodDiaryDarkTheme,
+      themeMode: ThemeMode.dark,
+      home: FoodDiaryNavBar(),
     );
   }
 }

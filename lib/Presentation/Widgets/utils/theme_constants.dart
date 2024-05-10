@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 ThemeData foodDiaryDarkTheme = ThemeData(
   appBarTheme: AppBarTheme(
     centerTitle: true,
+    backgroundColor: Colors.black,
     titleTextStyle: TextStyle(
-      fontWeight: FontWeight.w500
+      fontSize: 16
+    ),
+    iconTheme: IconThemeData(
+      color: Colors.white
     )
   ),
 
@@ -16,7 +20,8 @@ ThemeData foodDiaryDarkTheme = ThemeData(
   ),
 
   floatingActionButtonTheme: FloatingActionButtonThemeData(
-    backgroundColor: Colors.black
+    backgroundColor: Colors.black,
+    foregroundColor: Colors.white
   ),
 
   expansionTileTheme: ExpansionTileThemeData(

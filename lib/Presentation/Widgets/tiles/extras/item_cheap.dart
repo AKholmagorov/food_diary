@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class ItemCheap extends StatelessWidget {
-  const ItemCheap({super.key, required this.label, this.onTap, required this.editDialog});
+  const ItemCheap({super.key, required this.label, this.onTap, this.editDialog});
 
   final String label;
   final void Function(ItemCheap)? onTap;
-  final Widget editDialog;
+  final Widget? editDialog;
 
   @override
   Widget build(BuildContext context) {
@@ -14,13 +14,17 @@ class ItemCheap extends StatelessWidget {
         if (onTap != null)
           onTap!(this);
       },
-      onLongPress: () => showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return editDialog;
-        },
-      ),
+      onLongPress: () {
+        if (editDialog != null) {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return editDialog!;
+            },
+          );
+        }
+      },
       child: Container(
         padding: EdgeInsets.all(6),
         decoration: BoxDecoration(

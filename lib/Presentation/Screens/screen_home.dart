@@ -1,334 +1,189 @@
 import 'package:flutter/material.dart';
+import 'package:food_diary/Presentation/Screens/screen_add_drug.dart';
+import 'package:food_diary/Presentation/Screens/screen_add_meal.dart';
 import 'package:food_diary/Presentation/Widgets/dialogs/add_note_dialog.dart';
-import 'package:food_diary/Presentation/Widgets/meal_number_box_list.dart';
+import 'package:food_diary/Presentation/Widgets/tiles/extras/fd_colorful_slider.dart';
+import 'package:food_diary/Presentation/Widgets/tiles/fd_expansion_tile.dart';
+import 'package:food_diary/Presentation/Widgets/tiles/fd_tile.dart';
 
-class FoodDiaryExpansionPanel extends StatefulWidget {
-  const FoodDiaryExpansionPanel({super.key});
+import '../Widgets/tiles/extras/number_box_list.dart';
+
+class ScreenHome extends StatefulWidget {
+  const ScreenHome({super.key, this.isEditMode = false});
+
+  final bool isEditMode;
 
   @override
-  State<FoodDiaryExpansionPanel> createState() => _FoodDiaryExpansionPanelState();
+  State<ScreenHome> createState() => _ScreenHomeState();
 }
 
-class _FoodDiaryExpansionPanelState extends State<FoodDiaryExpansionPanel> {
-  double _currentSliderValue = 0;
+class _ScreenHomeState extends State<ScreenHome> {
+  double _currentSleepValue = 0;
   double _waterCount = 0;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ExpansionTile(
-          expandedCrossAxisAlignment: CrossAxisAlignment.start,
-          textColor: Colors.black,
-          backgroundColor: Color(0xFFF7F7F7F7),
-          collapsedBackgroundColor: Color(0xFFF7F7F7F7),
-          leading: Icon(Icons.nights_stay, color: Colors.black),
-          trailing: Text('$_currentSliderValue' + 'ч'),
-          title: Text('Сон'),
-          children: [
-            Padding(
-              padding: EdgeInsets.only(left: 16),
-              child: Text('Продолжительность сна'),
-            ),
-            Row(
-              children: [
-                SizedBox(width: 10),
-                IconButton(
-                    splashColor: Colors.black.withOpacity(0),
-                    hoverColor: Colors.black.withOpacity(0),
-                    highlightColor: Colors.black.withOpacity(0),
-                    onPressed: () {
-                      setState(() => _currentSliderValue -= 0.5);
-                    },
-                    icon: Icon(Icons.remove)
-                ),
-                Expanded(
-                    child: Slider(
-                        min: 0,
-                        max: 16,
-                        value: _currentSliderValue,
-                        divisions: 32,
-                        activeColor: Colors.black,
-                        inactiveColor: Colors.black.withOpacity(0.5),
-                        onChanged: (double value) {
-                          setState(() => _currentSliderValue = value);
-                        }
-                    )
-                ),
-                IconButton(
-                    splashColor: Colors.black.withOpacity(0),
-                    hoverColor: Colors.black.withOpacity(0),
-                    highlightColor: Colors.black.withOpacity(0),
-                    onPressed: () {
-                      setState(() => _currentSliderValue += 0.5);
-                    },
-                    icon: Icon(Icons.add)
-                ),
-                SizedBox(width: 10)
+    return Scaffold(
+      appBar: widget.isEditMode
+          ? AppBar(
+              title: Text('Редактировать'),
+              actions: [
+                IconButton(onPressed: (){}, icon: Icon(Icons.done))
               ],
             )
-          ],
-          shape: RoundedRectangleBorder(
-              side: BorderSide(color: Colors.black, width: 0.3),
-              borderRadius: BorderRadius.all(Radius.circular(10))
-          ),
-          collapsedShape: RoundedRectangleBorder(
-              side: BorderSide(color: Colors.black, width: 0.3),
-              borderRadius: BorderRadius.all(Radius.circular(10))
-          ),
-        ),
-        SizedBox(height: 10),
-        ExpansionTile(
-          expandedCrossAxisAlignment: CrossAxisAlignment.start,
-          textColor: Colors.black,
-          backgroundColor: Color(0xFFF7F7F7F7),
-          collapsedBackgroundColor: Color(0xFFF7F7F7F7),
-          leading: Icon(Icons.water_drop, color: Colors.black),
-          trailing: Text(_waterCount.toStringAsFixed(0) + ' ст.'),
-          title: Text('Вода'),
-          children: [
-            Padding(
-              padding: EdgeInsets.only(left: 16),
-              child: Text('Кол-во стаканов'),
-            ),
-            Row(
-              children: [
-                SizedBox(width: 10),
-                IconButton(
-                    splashColor: Colors.black.withOpacity(0),
-                    hoverColor: Colors.black.withOpacity(0),
-                    highlightColor: Colors.black.withOpacity(0),
-                    onPressed: () {
-                      setState(() => _waterCount -= 1);
-                    },
-                    icon: Icon(Icons.remove)
-                ),
-                Expanded(
-                    child: Slider(
-                        min: 0,
-                        max: 16,
-                        value: _waterCount,
-                        divisions: 16,
-                        activeColor: Colors.black,
-                        inactiveColor: Colors.black.withOpacity(0.5),
-                        onChanged: (double value) {
-                          setState(() => _waterCount = value);
-                        }
-                    )
-                ),
-                IconButton(
-                    splashColor: Colors.black.withOpacity(0),
-                    hoverColor: Colors.black.withOpacity(0),
-                    highlightColor: Colors.black.withOpacity(0),
-                    onPressed: () {
-                      setState(() => _waterCount += 1);
-                    },
-                    icon: Icon(Icons.add)
-                ),
-                SizedBox(width: 10)
-              ],
-            )
-          ],
-          shape: RoundedRectangleBorder(
-              side: BorderSide(color: Colors.black, width: 0.3),
-              borderRadius: BorderRadius.all(Radius.circular(10))
-          ),
-          collapsedShape: RoundedRectangleBorder(
-              side: BorderSide(color: Colors.black, width: 0.3),
-              borderRadius: BorderRadius.all(Radius.circular(10))
-          ),
-        ),
-        SizedBox(height: 10),
-        ExpansionTile(
-          expandedAlignment: Alignment.centerLeft,
-          expandedCrossAxisAlignment: CrossAxisAlignment.start,
-          textColor: Colors.black,
-          backgroundColor: Color(0xFFF7F7F7F7),
-          collapsedBackgroundColor: Color(0xFFF7F7F7F7),
-          leading: Icon(Icons.apple, color: Colors.black),
-          trailing: Text('0 приемов'),
-          title: Text('Пища'),
-          children: [
-            Padding(
-              padding: EdgeInsets.only(left: 16),
-              child: Text('Кол-во приемов пищи'),
-            ),
-            SizedBox(height: 10),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Wrap(
-                spacing: 10,
-                runSpacing: 10,
-                alignment: WrapAlignment.start,
-                children: [
-                  MealNumberBoxList(),
-                ]
-              )
-            ),
-            SizedBox(height: 10)
-          ],
-          shape: RoundedRectangleBorder(
-              side: BorderSide(color: Colors.black, width: 0.3),
-              borderRadius: BorderRadius.all(Radius.circular(10))
-          ),
-          collapsedShape: RoundedRectangleBorder(
-              side: BorderSide(color: Colors.black, width: 0.3),
-              borderRadius: BorderRadius.all(Radius.circular(10))
-          ),
-        ),
-        SizedBox(height: 10),
-        ExpansionTile(
-          expandedAlignment: Alignment.centerLeft,
-          expandedCrossAxisAlignment: CrossAxisAlignment.start,
-          textColor: Colors.black,
-          backgroundColor: Color(0xFFF7F7F7F7),
-          collapsedBackgroundColor: Color(0xFFF7F7F7F7),
-          leading: Icon(Icons.medication, color: Colors.black),
-          title: Text('Препараты'),
-          trailing: SizedBox(),
-          children: [
-            Padding(
-              padding: EdgeInsets.only(left: 16),
-              child: Text('Приемы'),
-            ),
-            SizedBox(height: 10),
-            Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Wrap(
-                    spacing: 10,
-                    runSpacing: 10,
-                    alignment: WrapAlignment.start,
+          : null,
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.all(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              FoodDiaryExpansionTile(
+                  icon: Icons.nights_stay,
+                  title: 'Сон',
+                  description: 'Продолжительность сна',
+                  trailing: '${_currentSleepValue.toStringAsFixed(0)}' + 'ч',
+                  content: Row(
                     children: [
-                      MealNumberBoxList(),
-                    ]
-                )
-            ),
-            SizedBox(height: 10)
-          ],
-          shape: RoundedRectangleBorder(
-              side: BorderSide(color: Colors.black, width: 0.3),
-              borderRadius: BorderRadius.all(Radius.circular(10))
-          ),
-          collapsedShape: RoundedRectangleBorder(
-              side: BorderSide(color: Colors.black, width: 0.3),
-              borderRadius: BorderRadius.all(Radius.circular(10))
-          ),
-        ),
-        SizedBox(height: 10),
-        ExpansionTile(
-          expandedCrossAxisAlignment: CrossAxisAlignment.start,
-          textColor: Colors.black,
-          backgroundColor: Color(0xFFF7F7F7F7),
-          collapsedBackgroundColor: Color(0xFFF7F7F7F7),
-          leading: Icon(Icons.mood_bad_outlined, color: Colors.black),
-          trailing: SizedBox(),
-          title: Text('Симптомы'),
-          children: [
-            Padding(
-              padding: EdgeInsets.only(left: 16),
-              child: Text('Укажите интенсивность симптомов'),
-            ),
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 16),
-                  child: Text('Метеоризм'),
-                ),
-                Expanded(
-                    child: Slider(
-                        min: 0,
-                        max: 5,
-                        value: _currentSliderValue,
-                        divisions: 5,
-                        activeColor: Colors.black,
-                        inactiveColor: Colors.black.withOpacity(0.5),
-                        onChanged: (double value) {
-                          setState(() => _currentSliderValue = value);
-                        }
-                    )
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 16),
-                  child: Text('Боль'),
-                ),
-                Expanded(
-                  child: Slider(
-                    min: 0,
-                    max: 5,
-                    value: _currentSliderValue,
-                    divisions: 5,
-                    activeColor: Colors.black,
-                    inactiveColor: Colors.black.withOpacity(0.5),
-                    onChanged: (double value) {
-                      setState(() => _currentSliderValue = value);
-                    }
+                      SizedBox(width: 10),
+                      IconButton(
+                          splashColor: Colors.black.withOpacity(0),
+                          hoverColor: Colors.black.withOpacity(0),
+                          highlightColor: Colors.black.withOpacity(0),
+                          onPressed: () {
+                            setState(() => _currentSleepValue -= 1);
+                          },
+                          icon: Icon(Icons.remove)
+                      ),
+                      Expanded(
+                          child: Slider(
+                              min: 0,
+                              max: 16,
+                              value: _currentSleepValue,
+                              onChanged: (double value) {
+                                setState(() => _currentSleepValue = value);
+                              }
+                          )
+                      ),
+                      IconButton(
+                          splashColor: Colors.black.withOpacity(0),
+                          hoverColor: Colors.black.withOpacity(0),
+                          highlightColor: Colors.black.withOpacity(0),
+                          onPressed: () {
+                            setState(() => _currentSleepValue += 1);
+                          },
+                          icon: Icon(Icons.add)
+                      ),
+                      SizedBox(width: 10)
+                    ],
                   )
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 16),
-                  child: Text('Слизь'),
-                ),
-                Expanded(
-                    child: Slider(
-                        min: 0,
-                        max: 5,
-                        value: _currentSliderValue,
-                        divisions: 5,
-                        activeColor: Colors.black,
-                        inactiveColor: Colors.black.withOpacity(0.5),
-                        onChanged: (double value) {
-                          setState(() => _currentSliderValue = value);
-                        }
+              ),
+              SizedBox(height: 10),
+              FoodDiaryExpansionTile(
+                  icon: Icons.local_drink,
+                  title: 'Вода',
+                  description: 'Кол-во жидкости',
+                  trailing: '${_waterCount.toStringAsFixed(0)} ст.',
+                  content: Row(
+                    children: [
+                      SizedBox(width: 10),
+                      IconButton(
+                          splashColor: Colors.black.withOpacity(0),
+                          hoverColor: Colors.black.withOpacity(0),
+                          highlightColor: Colors.black.withOpacity(0),
+                          onPressed: () {
+                            setState(() => _waterCount -= 1);
+                          },
+                          icon: Icon(Icons.remove)
+                      ),
+                      Expanded(
+                          child: Slider(
+                              min: 0,
+                              max: 16,
+                              value: _waterCount,
+                              onChanged: (double value) {
+                                setState(() => _waterCount = value);
+                              }
+                          )
+                      ),
+                      IconButton(
+                          splashColor: Colors.black.withOpacity(0),
+                          hoverColor: Colors.black.withOpacity(0),
+                          highlightColor: Colors.black.withOpacity(0),
+                          onPressed: () {
+                            setState(() => _waterCount += 1);
+                          },
+                          icon: Icon(Icons.add)
+                      ),
+                      SizedBox(width: 10)
+                    ],
+                  )
+              ),
+              SizedBox(height: 10),
+              FoodDiaryExpansionTile(
+                icon: Icons.restaurant_menu,
+                title: 'Пища',
+                description: 'Приемы пищи',
+                content: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Wrap(
+                        spacing: 10,
+                        runSpacing: 10,
+                        alignment: WrapAlignment.start,
+                        children: [
+                          NumberBoxList(screen: ScreenAddMeal()),
+                        ]
                     )
                 ),
-              ],
-            ),
-          ],
-          shape: RoundedRectangleBorder(
-              side: BorderSide(color: Colors.black, width: 0.3),
-              borderRadius: BorderRadius.all(Radius.circular(10))
-          ),
-          collapsedShape: RoundedRectangleBorder(
-              side: BorderSide(color: Colors.black, width: 0.3),
-              borderRadius: BorderRadius.all(Radius.circular(10))
+              ),
+              SizedBox(height: 10),
+              FoodDiaryExpansionTile(
+                icon: Icons.local_pharmacy,
+                title: 'Препараты',
+                description: 'Приемы препаратов',
+                content: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Wrap(
+                        spacing: 10,
+                        runSpacing: 10,
+                        alignment: WrapAlignment.start,
+                        children: [
+                          NumberBoxList(screen: ScreenAddDrug()),
+                        ]
+                    )
+                ),
+              ),
+              SizedBox(height: 10),
+              FoodDiaryExpansionTile(
+                  icon: Icons.mood_bad,
+                  title: 'Симптомы',
+                  description: 'Укажите интенсивность симптомов',
+                  content: Column(
+                    children: [
+                      FoodDiaryColorfulSlider(title: 'Метеоризм'),
+                      FoodDiaryColorfulSlider(title: 'Слизь'),
+                      FoodDiaryColorfulSlider(title: 'Боль'),
+                      FoodDiaryColorfulSlider(title: 'Кровь'),
+                      FoodDiaryColorfulSlider(title: 'Диарея'),
+                    ],
+                  )
+              ),
+              SizedBox(height: 10),
+              FoodDiaryTile(
+                leadingIcon: Icon(Icons.edit_calendar, color: Colors.black, size: 32),
+                title: 'Примечание',
+                onTap: () => showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      return AddNoteDialog();
+                    }
+                ),
+              )
+            ],
           ),
         ),
-        SizedBox(height: 10),
-        ExpansionTile(
-          expandedAlignment: Alignment.centerLeft,
-          expandedCrossAxisAlignment: CrossAxisAlignment.start,
-          textColor: Colors.black,
-          collapsedBackgroundColor: Color(0xFFF7F7F7F7),
-          leading: Icon(Icons.edit_calendar, color: Colors.black),
-          title: GestureDetector(
-            onTap: () => showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (BuildContext context) {
-                return AddNoteDialog();
-              }
-            ),
-            child: Text('Примечание')
-          ),
-          trailing: SizedBox(),
-          shape: RoundedRectangleBorder(
-              side: BorderSide(color: Colors.black, width: 0.3),
-              borderRadius: BorderRadius.all(Radius.circular(10))
-          ),
-          collapsedShape: RoundedRectangleBorder(
-              side: BorderSide(color: Colors.black, width: 0.3),
-              borderRadius: BorderRadius.all(Radius.circular(10))
-          ),
-        )
-      ],
+      )
     );
   }
 }

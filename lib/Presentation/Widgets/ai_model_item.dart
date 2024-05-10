@@ -1,49 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:food_diary/Presentation/Widgets/utils/ai_model_type.dart';
 
-class AIModelItem extends StatefulWidget {
-  const AIModelItem({super.key, required this.isActive, required this.aiModelType});
+class AIModelItem extends StatelessWidget {
+    const AIModelItem({
+    super.key,
+    required this.name,
+    required this.logo, 
+    this.isActive = false, 
+    required this.onTap, 
+    required this.modelNumber
+  });
 
+  final int modelNumber;
   final bool isActive;
-  final AIModelType aiModelType;
+  final AssetImage logo;
+  final String name;
+  final void Function(int) onTap;
 
-  @override
-  State<AIModelItem> createState() => _AIModelItemState();
-}
-
-class _AIModelItemState extends State<AIModelItem> {
   @override
   Widget build(BuildContext context) {
-    Map<AIModelType, AssetImage> aiLogo = {
-      AIModelType.GigaChatPro: AssetImage('assets/gigachat.jpg'),
-    };
-
-    return Column(
-      children: [
-        CircleAvatar(
-          radius: 36,
-          backgroundColor: widget.isActive ? Color(0xFF30DA88) : null,
-          child: CircleAvatar(
-            radius: 32,
-            backgroundImage: aiLogo[widget.aiModelType],
-          ),
-        ),
-        SizedBox(height: 5),
-        Container(
-          width: 72,
-          child: Text(
-            'GigaChat Pro',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontWeight: FontWeight.w700
+    return GestureDetector(
+      onTap: () => onTap(modelNumber),
+      child: Column(
+        children: [
+          CircleAvatar(
+            radius: 36,
+            backgroundColor: isActive ? Color(0xFF30DA88) : Colors.black.withOpacity(0),
+            child: CircleAvatar(
+              radius: 32,
+              backgroundImage: logo,
             ),
           ),
-        )
-      ],
+          SizedBox(height: 5),
+          SizedBox(
+            width: 80,
+            child: Text(
+              name,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontWeight: isActive ? FontWeight.w700 : FontWeight.w500
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
-}
-
-class AIModel {
-  
 }
