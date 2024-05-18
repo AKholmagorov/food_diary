@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_diary/Presentation/Widgets/dialogs/food_diary_dialog.dart';
+import 'package:food_diary/Riverpod/riverpod.dart';
 
-class AddNoteDialog extends StatefulWidget {
-  const AddNoteDialog({super.key, this.initString});
+class AddNoteDialog extends ConsumerStatefulWidget {
+  const AddNoteDialog({super.key, this.initString, required this.selectedDayDate});
 
   final String? initString;
+  final DateTime selectedDayDate;
 
   @override
-  State<AddNoteDialog> createState() => _AddNoteDialogState();
+  AddNoteDialogState createState() => AddNoteDialogState();
 }
 
-class _AddNoteDialogState extends State<AddNoteDialog> {
+class AddNoteDialogState extends ConsumerState<AddNoteDialog> {
   TextEditingController _controller = TextEditingController();
 
   @override
@@ -38,7 +41,10 @@ class _AddNoteDialogState extends State<AddNoteDialog> {
           border: InputBorder.none,
           focusedBorder: InputBorder.none
         ),
-      ),
+      ), 
+      onSave: () {
+        ref.read(currentDayProvider).updateNoteText(_controller.text);
+      },
     );
   }
 }

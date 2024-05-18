@@ -6,13 +6,15 @@ class FoodDiaryDialog extends StatelessWidget {
     required this.title,
     required this.content,
     this.isEdit = true,
-    this.isReadOnly = false
+    this.isReadOnly = false,
+    required this.onSave
   });
 
   final String title;
   final Widget content;
   final bool isEdit;
   final bool isReadOnly;
+  final void Function() onSave;
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +79,16 @@ class FoodDiaryDialog extends StatelessWidget {
                   ? Container(width: 0.5, color: Color(0xFF818181))
                   : SizedBox(),
               FlexButton(
-                onTap: () => Navigator.pop(context),
+                onTap: () {
+                  onSave();
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Изменения сохранены'),
+                      behavior: SnackBarBehavior.floating,
+                    ),
+                  );
+                },
                 icon: Icons.done,
                 isRightEdge: true,
                 isUnavailable: isReadOnly,

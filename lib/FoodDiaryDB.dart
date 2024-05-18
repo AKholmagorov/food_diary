@@ -5,30 +5,30 @@ import 'package:intl/intl.dart';
 
 class FoodDiaryDB {
   Database db;
-  final DateFormat formatter = DateFormat('yyyy-MM-dd');
 
   FoodDiaryDB({required this.db});
 
+  String _dateToString(DateTime date) {
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    return formatter.format(date);
+  }
+
   Future<DayModel> getNewDay() async {
-    String dateStr = formatter.format(DateTime.now());
-    
     db.execute('''
-      INSERT INTO days (date) VALUES ('$dateStr');
+      INSERT INTO days (date) VALUES ('${_dateToString(DateTime.now())}');
     ''');
 
     var result = await db.select('''
-      SELECT * FROM days WHERE date = '$dateStr'; 
+      SELECT * FROM days WHERE date = '${_dateToString(DateTime.now())}'; 
     ''');
 
     return DayModel.fromMap(result.first);
   }
 
   Future<DayModel?> getDay(DateTime date) async {
-    String dateStr = formatter.format(date);
-
     var result = await db.select('''
       SELECT * FROM days 
-      WHERE date = '$dateStr';
+      WHERE date = '${_dateToString(date)}';
     ''');
 
     if (!result.isEmpty)

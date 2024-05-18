@@ -37,7 +37,8 @@ class AddDrugDialog extends StatelessWidget {
             )
           )
         ],
-      ),
+      ), 
+      onSave: () {  },
     );
   }
 }

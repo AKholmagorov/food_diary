@@ -76,7 +76,10 @@ class _AddMealDialogState extends State<AddMealDialog> {
             )
           ),
         ],
-      ),
+      ), 
+      onSave: () { 
+
+      },
     );
   }
 }

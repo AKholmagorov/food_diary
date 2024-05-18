@@ -3,10 +3,15 @@ import 'package:food_diary/Presentation/Widgets/utils/day_types.dart';
 class DayModel {
   final int id;
   final DateTime date;
-  final DayType dayType;
-  final int sleepHours;
-  final int waterCount;
-  final String? noteText;
+  DayType dayType;
+  double sleepHours;
+  int waterCount;
+  String? noteText;
+  int blood;
+  int slime;
+  int pain;
+  int flatulence;
+  int diarrhea;
 
   DayModel({
     required this.id,
@@ -14,7 +19,12 @@ class DayModel {
     required this.dayType, 
     required this.sleepHours, 
     required this.waterCount, 
-    required this.noteText
+    required this.noteText,
+    required this.blood,
+    required this.diarrhea,
+    required this.flatulence,
+    required this.pain,
+    required this.slime,
   });
 
   factory DayModel.fromMap(Map<String, dynamic> map) {
@@ -39,13 +49,18 @@ class DayModel {
       id: map['id'] as int,
       date: DateTime.parse(map['date']),
       dayType: extractGetType(map['day_type'] as String),
-      sleepHours: map['sleep_hours'] as int,
+      sleepHours: map['sleep_hours'] as double,
       waterCount: map['water_count'] as int,
       noteText: map['note'],
+      pain: map['pain'],
+      blood: map['blood'],
+      diarrhea: map['diarrhea'],
+      flatulence: map['flatulence'],
+      slime: map['slime']
     );
   }
 
-  Map<String, dynamic> toMap() {
+/*   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'date': date,
@@ -54,5 +69,5 @@ class DayModel {
       'waterCount': waterCount,
       'noteText': noteText,
     };
-  }
+  } */
 }
