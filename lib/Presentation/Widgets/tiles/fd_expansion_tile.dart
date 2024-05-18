@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 class FoodDiaryExpansionTile extends StatelessWidget {
-  const FoodDiaryExpansionTile(
-      {super.key,
-      required this.icon,
-      required this.title,
-      required this.description,
-      required this.content,
-      this.trailing});
+  const FoodDiaryExpansionTile({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.description,
+    required this.content,
+    this.trailing
+  });
 
   final IconData icon;
   final String title;
@@ -40,7 +41,11 @@ class FoodDiaryExpansionTile extends StatelessWidget {
         trailing: trailing != null
             ? Text(
                 trailing!,
-                style: TextStyle(fontWeight: FontWeight.w700),
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14,
+                  color: Color.fromARGB(255, 75, 75, 75)
+                ),
               )
             : SizedBox(),
         children: [

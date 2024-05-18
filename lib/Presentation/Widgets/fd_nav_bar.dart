@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:food_diary/Presentation/Screens/screen_ai.dart';
-import 'package:food_diary/Presentation/Screens/screen_calendar.dart';
-import 'package:food_diary/Presentation/Screens/screen_home.dart';
+import 'package:food_diary/Screens/screen_ai.dart';
+import 'package:food_diary/Screens/screen_calendar.dart';
+import 'package:food_diary/Screens/screen_home.dart';
 
 class FoodDiaryNavBar extends StatefulWidget {
   const FoodDiaryNavBar({super.key});
@@ -11,7 +11,7 @@ class FoodDiaryNavBar extends StatefulWidget {
 }
 
 class _FoodDiaryNavBarState extends State<FoodDiaryNavBar> {
-  int currentIndex = 0;
+  int currentIndex = 1;
 
   @override
   Widget build(BuildContext context) {

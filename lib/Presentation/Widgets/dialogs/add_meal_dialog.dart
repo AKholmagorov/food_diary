@@ -1,24 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:food_diary/Models/meal_model.dart';
 import 'package:food_diary/Presentation/Widgets/dialogs/food_diary_dialog.dart';
 
-class AddMealDialog extends StatelessWidget {
-  const AddMealDialog({
+class AddMealDialog extends StatefulWidget {
+  AddMealDialog({
     super.key,
-    required this.title,
-    this.isEdit = true,
+    this.meal,
     this.isReadOnly = false
   });
 
-  final String title;
-  final bool isEdit;
+  final MealModel? meal;
   final bool isReadOnly;
 
   @override
+  State<AddMealDialog> createState() => _AddMealDialogState();
+}
+
+class _AddMealDialogState extends State<AddMealDialog> {
+  late TextEditingController _nameController;
+  late TextEditingController _compositionController;
+  
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.meal != null) {
+      _nameController.text = widget.meal!.name;
+      _compositionController.text = widget.meal!.composition;
+    }
+  }
+  
+  @override
   Widget build(BuildContext context) {
     return FoodDiaryDialog(
-      title: title,
-      isEdit: isEdit,
-      isReadOnly: isReadOnly,
+      title: widget.meal != null ? widget.meal!.name : 'Добавить продукт',
+      isEdit: widget.meal != null,
+      isReadOnly: widget.isReadOnly,
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -28,12 +45,16 @@ class AddMealDialog extends StatelessWidget {
           ),
           SizedBox(height: 8),
           TextField(
-            readOnly: isReadOnly,
+            controller: _nameController,
+            readOnly: widget.isReadOnly,
             decoration: InputDecoration(
               hintText: 'Введите название продукта',
               hintStyle: TextStyle(
-                color: Color(0xFF818181).withOpacity(0.5), fontSize: 12),
-              contentPadding: EdgeInsets.all(10))),
+                color: Color(0xFF818181).withOpacity(0.5),
+                fontSize: 12
+              ),
+            contentPadding: EdgeInsets.all(10))
+          ),
           SizedBox(height: 20),
           Text(
             ' Состав',
@@ -41,8 +62,9 @@ class AddMealDialog extends StatelessWidget {
           ),
           SizedBox(height: 8),
           TextField(
+            controller: _compositionController,
             maxLines: 4,
-            readOnly: isReadOnly,
+            readOnly: widget.isReadOnly,
             decoration: InputDecoration(
               hintText: 'Состав продукта (необязательно)',
               hintStyle: TextStyle(

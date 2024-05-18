@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:food_diary/Presentation/Screens/screen_add_meal.dart';
-import 'package:food_diary/Presentation/Screens/add_screen.dart';
+import 'package:food_diary/Screens/screen_add_meal.dart';
+import 'package:food_diary/Screens/add_screen.dart';
 
-import '../../../Screens/screen_add_drug.dart';
+import '../../../../Screens/screen_add_drug.dart';
 
 class MealNumberBox extends StatefulWidget {
   const MealNumberBox(

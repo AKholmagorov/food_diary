@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_diary/Presentation/Screens/add_screen.dart';
+import 'package:food_diary/Screens/add_screen.dart';
 import 'package:food_diary/Presentation/Widgets/tiles/extras/number_box.dart';
 
 class NumberBoxList extends StatefulWidget {

@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:food_diary/Presentation/Screens/screen_home.dart';
+import 'package:food_diary/Models/day_model.dart';
+import 'package:food_diary/Screens/screen_home.dart';
 import 'package:food_diary/Presentation/Widgets/content_box.dart';
 import 'package:food_diary/Presentation/Widgets/dialogs/add_meal_dialog.dart';
 import 'package:food_diary/Presentation/Widgets/tiles/extras/item_cheap.dart';
 import 'package:food_diary/Presentation/Widgets/utils/get_month_name.dart';
 
-import '../Widgets/tiles/fd_tile.dart';
+import '../Presentation/Widgets/tiles/fd_tile.dart';
 
 class ScreenDayInfo extends StatelessWidget {
-  const ScreenDayInfo({super.key, required this.day, required this.month});
+  const ScreenDayInfo({super.key, required this.day});
 
-  final int day;
-  final int month;
+  final DayModel day;
 
-  String geReplacedMonthLastLetter(int month) {
+  String getReplacedMonthLastLetter(int month) {
     String monthName = getMonthName(month);
     if (month == 3 || month == 8)
       return monthName + 'а';
@@ -24,7 +24,11 @@ class ScreenDayInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('$day ${geReplacedMonthLastLetter(month)}')),
+      appBar: AppBar(
+        title: Text(
+            '${day.date.day} ${getReplacedMonthLastLetter(day.date.month)}'
+          )
+        ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
@@ -46,14 +50,14 @@ class ScreenDayInfo extends StatelessWidget {
                 children: [
                   FoodDiaryTile(
                     title: 'Сон',
-                    subtitle: '8ч',
+                    subtitle: '${day.sleepHours}ч',
                     isExpanded: false,
                     trailingIcon: Icon(Icons.nights_stay, color: Colors.black, size: 32),
                   ),
                   SizedBox(width: 10),
                   FoodDiaryTile(
                     title: 'Вода',
-                    subtitle: '7 ст.',
+                    subtitle: '${day.waterCount} ст.',
                     isExpanded: false,
                     trailingIcon: Icon(Icons.local_drink, color: Colors.black, size: 32),
                   ),
@@ -76,8 +80,7 @@ class ScreenDayInfo extends StatelessWidget {
                     ItemCheap(
                       label: 'Творог 5%',
                       editDialog: AddMealDialog(
-                        title: 'Творог 5%',
-                        isEdit: false,
+                        // TODO: add meal
                         isReadOnly: true,
                       )
                     ),

@@ -49,7 +49,7 @@ class FoodDiaryTile extends StatelessWidget {
                 subtitle != null
                   ? Text(subtitle!,
                       style: TextStyle(
-                        fontSize: 13,
+                        fontSize: 14,
                         color: Color(0xFF818181),
                         fontWeight: FontWeight.w500))
                   : SizedBox(),

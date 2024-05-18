@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:food_diary/Presentation/Screens/add_screen.dart';
+import 'package:food_diary/FoodDiaryDB.dart';
+import 'package:food_diary/Models/meal_model.dart';
+import 'package:food_diary/Screens/add_screen.dart';
 import 'package:food_diary/Presentation/Widgets/dialogs/add_meal_dialog.dart';
 import 'package:food_diary/Presentation/Widgets/tiles/extras/item_cheap.dart';
+import 'package:sqlite3/sqlite3.dart';
 
 class ScreenAddMeal extends AddScreen {
   const ScreenAddMeal({super.key, this.isEditMode = false});
@@ -13,44 +16,29 @@ class ScreenAddMeal extends AddScreen {
 }
 
 class _ScreenAddMealState extends State<ScreenAddMeal> {
+  FoodDiaryDB db = FoodDiaryDB(db: sqlite3.open('food_diary_db'));
+
   List<ItemCheap> _addedItems = [];
   List<ItemCheap> _recentItems = [];
 
-  void AddToAddedList(ItemCheap item) {
+  void AddToAddedList(MealModel value) {
     setState(() {
-      _addedItems.add(new ItemCheap(label: item.label, onTap: AddToRecentList, editDialog: AddMealDialog(title: 'Творог 5%')));
-      _recentItems.remove(item);
+      _addedItems.add(new ItemCheap(label: value.name, onTap: AddToRecentList, editDialog: AddMealDialog(meal: value)));
+      _recentItems.remove(value);
     });
   }
 
-  void AddToRecentList(ItemCheap item) {
+  void AddToRecentList(MealModel value) {
     setState(() {
-      _recentItems.add(new ItemCheap(label: item.label, onTap: AddToAddedList, editDialog: AddMealDialog(title: 'Творог 5%')));
-      _addedItems.remove(item);
+      _recentItems.add(new ItemCheap(label: value.name, onTap: AddToAddedList, editDialog: AddMealDialog(meal: value)));
+      _addedItems.remove(value);
     });
   }
 
   void initState() {
     super.initState();
-    _addedItems = [
-      ItemCheap(label: 'Бананы', onTap: AddToRecentList, editDialog: AddMealDialog(title: 'Творог 5%')),
-      ItemCheap(label: 'Зефир из печеных яблок', onTap: AddToRecentList, editDialog: AddMealDialog(title: 'Творог 5%')),
-      ItemCheap(label: 'Пюре из картофеля', onTap: AddToRecentList, editDialog: AddMealDialog(title: 'Творог 5%')),
-    ];
-    _recentItems = [
-      ItemCheap(label: 'Творог 5%', onTap: AddToAddedList, editDialog: AddMealDialog(title: 'Творог 5%')),
-      ItemCheap(label: 'Чернослив', onTap: AddToAddedList, editDialog: AddMealDialog(title: 'Творог 5%')),
-      ItemCheap(label: 'Хлебцы', onTap: AddToAddedList, editDialog: AddMealDialog(title: 'Творог 5%')),
-      ItemCheap(label: 'Творог 10%', onTap: AddToAddedList, editDialog: AddMealDialog(title: 'Творог 5%')),
-      ItemCheap(label: 'Овсяное печенье', onTap: AddToAddedList, editDialog: AddMealDialog(title: 'Творог 5%')),
-      ItemCheap(label: 'Галеты', onTap: AddToAddedList, editDialog: AddMealDialog(title: 'Творог 5%')),
-      ItemCheap(label: 'Творог 5%', onTap: AddToAddedList, editDialog: AddMealDialog(title: 'Творог 5%')),
-      ItemCheap(label: 'Чернослив', onTap: AddToAddedList, editDialog: AddMealDialog(title: 'Творог 5%')),
-      ItemCheap(label: 'Хлебцы', onTap: AddToAddedList, editDialog: AddMealDialog(title: 'Творог 5%')),
-      ItemCheap(label: 'Творог 10%', onTap: AddToAddedList, editDialog: AddMealDialog(title: 'Творог 5%')),
-      ItemCheap(label: 'Овсяное печенье', onTap: AddToAddedList, editDialog: AddMealDialog(title: 'Творог 5%')),
-      ItemCheap(label: 'Галеты', onTap: AddToAddedList, editDialog: AddMealDialog(title: 'Творог 5%')),
-    ];
+    _addedItems = [];
+    // _recentItems = db.getAllMeal();
   }
 
   @override
@@ -68,7 +56,8 @@ class _ScreenAddMealState extends State<ScreenAddMeal> {
                 barrierDismissible: false,
                 builder: (BuildContext context) {
                   return AddMealDialog(
-                    title: 'Добавить продукт', isEdit: false);
+                    // TODO: add meal
+                  );
                 }
               ),
             icon: Icon(Icons.add, color: Colors.white)

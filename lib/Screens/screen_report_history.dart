@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_diary/Presentation/Screens/screen_ai_report_page.dart';
+import 'package:food_diary/Screens/screen_ai_report_page.dart';
 import 'package:food_diary/Presentation/Widgets/tiles/fd_tile.dart';
 
 class ScreenReportHistory extends StatelessWidget {

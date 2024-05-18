@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_diary/Presentation/Screens/add_screen.dart';
+import 'package:food_diary/Screens/add_screen.dart';
 import 'package:food_diary/Presentation/Widgets/dialogs/add_drug_dialog.dart';
 import 'package:food_diary/Presentation/Widgets/tiles/drug_tile.dart';
 import 'package:food_diary/Presentation/Widgets/tiles/extras/item_cheap.dart';
@@ -27,7 +27,7 @@ class _ScreenAddDrugState extends State<ScreenAddDrug> {
 
   void AddToRecentList(DrugTile item) {
     setState(() {
-      _recentItems.add(new ItemCheap(label: item.title, onTap: AddToAddedList, editDialog: AddDrugDialog(title: 'Омез 20мг')));
+      // _recentItems.add(new ItemCheap(label: item.title, onTap: AddToAddedList, editDialog: AddDrugDialog(title: 'Омез 20мг')));
       _addedItems.remove(item);
     });
   }
@@ -38,9 +38,9 @@ class _ScreenAddDrugState extends State<ScreenAddDrug> {
       DrugTile(title: 'Полисорб', onDelete: AddToRecentList),
     ];
     _recentItems = [
-      ItemCheap(label: 'Омез 20мг', onTap: AddToAddedList, editDialog: AddDrugDialog(title: 'Омез 20мг')),
-      ItemCheap(label: 'Бифиформ', onTap: AddToAddedList, editDialog: AddDrugDialog(title: 'Омез 20мг')),
-      ItemCheap(label: 'Месакол', onTap: AddToAddedList, editDialog: AddDrugDialog(title: 'Омез 20мг')),
+      // ItemCheap(label: 'Омез 20мг', onTap: AddToAddedList, editDialog: AddDrugDialog(title: 'Омез 20мг')),
+      // ItemCheap(label: 'Бифиформ', onTap: AddToAddedList, editDialog: AddDrugDialog(title: 'Омез 20мг')),
+      // ItemCheap(label: 'Месакол', onTap: AddToAddedList, editDialog: AddDrugDialog(title: 'Омез 20мг')),
     ];
   }
 

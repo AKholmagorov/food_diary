@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:food_diary/Presentation/Screens/screen_add_drug.dart';
-import 'package:food_diary/Presentation/Screens/screen_add_meal.dart';
+import 'package:food_diary/FoodDiaryDB.dart';
+import 'package:food_diary/Models/day_model.dart';
+import 'package:food_diary/Screens/screen_add_drug.dart';
+import 'package:food_diary/Screens/screen_add_meal.dart';
 import 'package:food_diary/Presentation/Widgets/dialogs/add_note_dialog.dart';
 import 'package:food_diary/Presentation/Widgets/tiles/extras/fd_colorful_slider.dart';
 import 'package:food_diary/Presentation/Widgets/tiles/fd_expansion_tile.dart';
 import 'package:food_diary/Presentation/Widgets/tiles/fd_tile.dart';
+import 'package:sqlite3/sqlite3.dart' as sqlite;
 
-import '../Widgets/tiles/extras/number_box_list.dart';
+import '../Presentation/Widgets/tiles/extras/number_box_list.dart';
 
 class ScreenHome extends StatefulWidget {
   const ScreenHome({super.key, this.isEditMode = false});
@@ -18,11 +21,33 @@ class ScreenHome extends StatefulWidget {
 }
 
 class _ScreenHomeState extends State<ScreenHome> {
+  FoodDiaryDB db = FoodDiaryDB(db: sqlite.sqlite3.open('food_diary_db'));
+  DayModel? _currentDay;
+
   double _currentSleepValue = 0;
   double _waterCount = 0;
 
+  Future<void> _initCurrentDay() async {
+    _currentDay = await db.getDay(DateTime.now()) ?? await db.getNewDay();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initCurrentDay();
+  }
+
   @override
   Widget build(BuildContext context) {
+     if (_currentDay == null) {
+      return Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(color: Colors.black),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: widget.isEditMode
           ? AppBar(
@@ -42,7 +67,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                   icon: Icons.nights_stay,
                   title: 'Сон',
                   description: 'Продолжительность сна',
-                  trailing: '${_currentSleepValue.toStringAsFixed(0)}' + 'ч',
+                  trailing: '${_currentDay!.sleepHours}' + 'ч',
                   content: Row(
                     children: [
                       SizedBox(width: 10),
@@ -83,7 +108,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                   icon: Icons.local_drink,
                   title: 'Вода',
                   description: 'Кол-во жидкости',
-                  trailing: '${_waterCount.toStringAsFixed(0)} ст.',
+                  trailing: '${_currentDay!.waterCount} ст.',
                   content: Row(
                     children: [
                       SizedBox(width: 10),
@@ -176,7 +201,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                     context: context,
                     barrierDismissible: false,
                     builder: (BuildContext context) {
-                      return AddNoteDialog();
+                      return AddNoteDialog(initString: _currentDay!.noteText);
                     }
                 ),
               )
