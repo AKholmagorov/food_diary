@@ -57,11 +57,17 @@ ThemeData foodDiaryDarkTheme = ThemeData(
       ),
     ),
   ),
+
   textTheme: TextTheme(
     titleMedium: TextStyle(fontWeight: FontWeight.w500),
   ),
+
   textSelectionTheme: TextSelectionThemeData(
     cursorColor: Colors.black,
     selectionColor: Colors.black.withAlpha(80)
+  ),
+
+  progressIndicatorTheme: ProgressIndicatorThemeData(
+    color: Colors.black,
   ),
 );

@@ -1,15 +1,11 @@
+import 'package:food_diary/Models/food_model.dart';
+
 class MealModel {
-  final int id;
-  final String name;
-  final String composition;
+  int id;
+  List<FoodModel> food;
 
-  MealModel({required this.id, required this.name, required this.composition});
-
-  factory MealModel.fromMap(Map<String, dynamic> map) {
-    return MealModel(
-      id: map['id'] as int,
-      name: map['name'] as String,
-      composition: map['composition'] as String
-    );
-  }
+  MealModel({
+    required this.id,
+    required this.food,
+  });
 }

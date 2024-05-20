@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_diary/Models/day_model.dart';
 import 'package:food_diary/Presentation/Widgets/tiles/extras/fd_colorful_slider.dart';
+import 'package:food_diary/Presentation/Widgets/tiles/extras/number_box.dart';
 import 'package:food_diary/Presentation/Widgets/utils/symptom_types.dart';
 import 'package:food_diary/Riverpod/riverpod.dart';
 import 'package:food_diary/Screens/screen_add_drug.dart';
@@ -39,6 +40,7 @@ class ScreenHomeState extends ConsumerState<ScreenHome> {
     final double _maxWaterCount = 16;
 
     DayModel? _selectedDay = ref.watch(currentDayProvider).currentDay;
+    int mealCount = ref.watch(currentDayProvider).meals.length;
     if (_selectedDay == null) {
       return Scaffold(
         body: Center(
@@ -173,7 +175,19 @@ class ScreenHomeState extends ConsumerState<ScreenHome> {
                     runSpacing: 10,
                     alignment: WrapAlignment.start,
                     children: [
-                      NumberBoxList(screen: ScreenAddMeal()),
+                      NumberBoxList(
+                        screen: ScreenAddMeal(),
+                        children: List.generate(
+                          mealCount+1,
+                          (index) {
+                            return NumberBox(
+                              isFilled: index == ref.watch(currentDayProvider).meals.length ? false : true, 
+                              itemNumber: index+1, 
+                              destination: ScreenAddMeal()
+                            );
+                          }
+                        ),
+                      ),
                     ]
                   )
                 ),

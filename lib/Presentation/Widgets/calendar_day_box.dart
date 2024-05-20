@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_diary/Models/day_model.dart';
+import 'package:food_diary/Riverpod/riverpod.dart';
 import 'package:food_diary/Screens/screen_day_info.dart';
 import 'package:food_diary/Presentation/Widgets/utils/day_types.dart';
 
-class CalendarDayBox extends StatelessWidget {
+class CalendarDayBox extends ConsumerStatefulWidget {
   const CalendarDayBox({
     super.key,
     required this.day, 
@@ -12,6 +14,19 @@ class CalendarDayBox extends StatelessWidget {
 
   final DayModel? day;
   final int dayNumber;
+
+  @override
+  CalendarDayBoxState createState() => CalendarDayBoxState();
+}
+
+class CalendarDayBoxState extends ConsumerState<CalendarDayBox> {
+  DayModel? _currentDay;
+  
+  @override
+  void initState() {
+    super.initState();
+    _currentDay = widget.day;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,15 +38,19 @@ class CalendarDayBox extends StatelessWidget {
       null: Color(0xFFF1F1F1)
     };
     return ElevatedButton(
-      onPressed: () {
-        if (day == null) {
+      onPressed: () async {
+        if (widget.day == null) {
           null;
         } 
         else {
+          await ref.read(currentDayProvider).loadDay(widget.day!.date);
+
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (BuildContext context) => ScreenDayInfo(day: day!)
+              builder: (BuildContext context) {
+                return ScreenDayInfo();
+              }
             )
           );
         }
@@ -39,16 +58,16 @@ class CalendarDayBox extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         padding: EdgeInsets.zero,
         elevation: 7,
-        backgroundColor: dayTypeColors[day?.dayType],
+        backgroundColor: dayTypeColors[_currentDay?.dayType],
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10))
         )
       ),
       child: Text(
-        '${dayNumber}',
+        '${widget.dayNumber}',
         style: TextStyle(
           fontSize: 36,
-          color: day == null
+          color: widget.day == null
             ? Color(0xFF818181)
             : Colors.white,
           fontWeight: FontWeight.w500

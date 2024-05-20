@@ -81,13 +81,6 @@ class FoodDiaryDialog extends StatelessWidget {
               FlexButton(
                 onTap: () {
                   onSave();
-                  Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Изменения сохранены'),
-                      behavior: SnackBarBehavior.floating,
-                    ),
-                  );
                 },
                 icon: Icons.done,
                 isRightEdge: true,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_diary/Screens/add_screen.dart';
 import 'package:food_diary/Presentation/Widgets/dialogs/add_drug_dialog.dart';
 import 'package:food_diary/Presentation/Widgets/tiles/drug_tile.dart';
@@ -10,10 +11,10 @@ class ScreenAddDrug extends AddScreen {
   final bool isEditMode;
 
   @override
-  State<ScreenAddDrug> createState() => _ScreenAddDrugState();
+  ScreenAddDrugState createState() => ScreenAddDrugState();
 }
 
-class _ScreenAddDrugState extends State<ScreenAddDrug> {
+class ScreenAddDrugState extends ConsumerState<ScreenAddDrug> {
   List<DrugTile> _addedItems = [];
   List<ItemCheap> _recentItems = [];
 

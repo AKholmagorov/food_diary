@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_diary/Models/meal_model.dart';
+import 'package:food_diary/Riverpod/riverpod.dart';
 import 'package:food_diary/Screens/screen_add_meal.dart';
-import 'package:food_diary/Screens/add_screen.dart';
 
 import '../../../../Screens/screen_add_drug.dart';
 
-class MealNumberBox extends StatefulWidget {
-  const MealNumberBox(
+class NumberBox extends ConsumerStatefulWidget {
+  const NumberBox(
       {super.key,
       required this.isFilled,
-      required this.addItem,
+      // required this.addItem,
       required this.itemNumber,
       required this.destination});
 
   final bool isFilled;
-  final Function addItem;
+  // final Function addItem;
   final int itemNumber;
-  final AddScreen destination;
+  final Widget destination;
 
   @override
-  State<MealNumberBox> createState() => _MealNumberBoxState();
+  NumberBoxState createState() => NumberBoxState();
 }
 
-class _MealNumberBoxState extends State<MealNumberBox> {
+class NumberBoxState extends ConsumerState<NumberBox> {
   late bool _isFilled;
 
   @override
@@ -36,13 +38,12 @@ class _MealNumberBoxState extends State<MealNumberBox> {
       onTap: () {
         setState(() {
           if (!_isFilled) {
-            _isFilled = true;
             Navigator.push(context, MaterialPageRoute(builder: (context) => widget.destination));
-            widget.addItem();
           } else {
-            // TODO: refactor
-            if (widget.destination is ScreenAddMeal)
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ScreenAddMeal(isEditMode: true)));
+            if (widget.destination is ScreenAddMeal) {
+              MealModel meal = ref.read(currentDayProvider).meals[widget.itemNumber-1];
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ScreenAddMeal(meal: meal)));
+            }
             else
               Navigator.push(context, MaterialPageRoute(builder: (context) => ScreenAddDrug(isEditMode: true)));
           }

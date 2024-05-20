@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:food_diary/Models/meal_model.dart';
 
 class ItemCheap extends StatelessWidget {
-  const ItemCheap({super.key, required this.label, this.onTap, this.editDialog});
+  const ItemCheap({
+    super.key, 
+    required this.itemId,
+    required this.label, 
+    this.onTap, 
+    this.editDialog, 
+  });
 
+  final int itemId;
   final String label;
-  final void Function(MealModel)? onTap;
+  final void Function(int, String)? onTap;
   final Widget? editDialog;
 
   @override
@@ -13,7 +19,7 @@ class ItemCheap extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (onTap != null) {
-          // TODO: onTap!(this);
+          onTap!(itemId, label);
         }
       },
       onLongPress: () {
