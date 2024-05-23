@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class FoodDiaryExpansionTile extends StatelessWidget {
+class FoodDiaryExpansionTile extends ConsumerStatefulWidget {
   const FoodDiaryExpansionTile({
     super.key,
     required this.icon,
     required this.title,
     required this.description,
     required this.content,
-    this.trailing
+    this.trailing,
   });
 
   final IconData icon;
@@ -16,6 +17,11 @@ class FoodDiaryExpansionTile extends StatelessWidget {
   final Widget content;
   final String? trailing;
 
+  @override
+  FoodDiaryExpansionTileState createState() => FoodDiaryExpansionTileState();
+}
+
+class FoodDiaryExpansionTileState extends ConsumerState<FoodDiaryExpansionTile> {  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,17 +36,17 @@ class FoodDiaryExpansionTile extends StatelessWidget {
         expandedCrossAxisAlignment: CrossAxisAlignment.start,
         title: Row(
           children: [
-            Icon(icon, color: Colors.black, size: 32),
+            Icon(widget.icon, color: Colors.black, size: 32),
             SizedBox(width: 12),
             Text(
-              title,
+              widget.title,
               style: TextStyle(fontWeight: FontWeight.w700),
             )
           ],
         ),
-        trailing: trailing != null
+        trailing: widget.trailing != null
             ? Text(
-                trailing!,
+                widget.trailing!,
                 style: TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 14,
@@ -53,7 +59,7 @@ class FoodDiaryExpansionTile extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(left: 16),
             child: Text(
-              description,
+              widget.description,
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
@@ -62,7 +68,7 @@ class FoodDiaryExpansionTile extends StatelessWidget {
             ),
           ),
           SizedBox(height: 10),
-          content,
+          widget.content,
           SizedBox(height: 16)
         ],
       ),

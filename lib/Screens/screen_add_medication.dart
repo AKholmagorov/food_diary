@@ -1,56 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:food_diary/Models/food_model.dart';
-import 'package:food_diary/Models/meal_model.dart';
+import 'package:food_diary/Models/drug_model.dart';
+import 'package:food_diary/Models/medication_model.dart';
+import 'package:food_diary/Presentation/Widgets/dialogs/add_medication_dialog.dart';
 import 'package:food_diary/Riverpod/riverpod.dart';
-import 'package:food_diary/Presentation/Widgets/dialogs/add_meal_dialog.dart';
 import 'package:food_diary/Presentation/Widgets/tiles/extras/item_cheap.dart';
 import 'package:collection/collection.dart';
 
-class ScreenAddMeal extends ConsumerStatefulWidget {
-  const ScreenAddMeal({super.key, this.meal});
+class ScreenAddMedication extends ConsumerStatefulWidget {
+  const ScreenAddMedication({super.key, this.medication});
 
-  final MealModel? meal;
+  final MedicationModel? medication;
 
   @override
   ScreenAddMealState createState() => ScreenAddMealState();
 }
 
-class ScreenAddMealState extends ConsumerState<ScreenAddMeal> {
+class ScreenAddMealState extends ConsumerState<ScreenAddMedication> {
   List<ItemCheap> _addedItems = [];
   List<ItemCheap> _recentItems = [];
-  late List<FoodModel> _foodList;
+  late List<DrugModel> _drugList;
 
-  void AddToAddedList(int foodID, String label) {
+  void AddToAddedList(int drugID, String label) {
     setState(() {
       _addedItems.add(
         ItemCheap(
-          itemId: foodID,
+          itemId: drugID,
           label: label,
           onTap: AddToRecentList,
-          editDialog: AddFoodDialog(foodID: foodID),
+          editDialog: AddMedicationDialog(drugID: drugID),
           editModeEnabled: false,
         )
       );
-      _recentItems.removeWhere((e) => e.itemId == foodID);
+      _recentItems.removeWhere((e) => e.itemId == drugID);
     });
   }
 
-  void AddToRecentList(int foodID, String label) {
+  void AddToRecentList(int drugID, String label) {
     setState(() {
       _recentItems.add(
         ItemCheap(
-          itemId: foodID,
+          itemId: drugID,
           label: label,
           onTap: AddToAddedList,
-          editDialog: AddFoodDialog(foodID: foodID)
+          editDialog: AddMedicationDialog(drugID: drugID)
         )
       );
-      _addedItems.removeWhere((e) => e.itemId == foodID);
+      _addedItems.removeWhere((e) => e.itemId == drugID);
     });
   }
 
-  void initRecentList(List<FoodModel> data) {
+  void initRecentList(List<DrugModel> data) {
     _recentItems.clear();
 
     for (var value in data) {
@@ -60,21 +60,21 @@ class ScreenAddMealState extends ConsumerState<ScreenAddMeal> {
             itemId: value.id,
             label: value.name,
             onTap: AddToAddedList,
-            editDialog: AddFoodDialog(foodID: value.id)
+            editDialog: AddMedicationDialog(drugID: value.id)
           )
         );
       }
     }
   }
 
-  void initAddedList(List<FoodModel> data) {
+  void initAddedList(List<DrugModel> data) {
     for (var value in data) {
       _addedItems.add(
         ItemCheap(
           itemId: value.id,
           label: value.name,
           onTap: AddToRecentList,
-          editDialog: AddFoodDialog(foodID: value.id),
+          editDialog: AddMedicationDialog(drugID: value.id),
           editModeEnabled: false,
         )
       );
@@ -84,25 +84,25 @@ class ScreenAddMealState extends ConsumerState<ScreenAddMeal> {
   @override
   void initState() {
     super.initState();
-    if (widget.meal != null)
-      initAddedList(widget.meal!.food);
+    if (widget.medication != null)
+      initAddedList(widget.medication!.drugs);
   }
 
   @override
   Widget build(BuildContext context) {
-    _foodList = ref.watch(foodStorageProvider).foodList;
-    initRecentList(_foodList);
+    _drugList = ref.watch(drugStorageProvider).drugList;
+    initRecentList(_drugList);
 
     return Scaffold(
       appBar: AppBar(
-        title: widget.meal != null
+        title: widget.medication != null
           ? Text('Редактировать')
-          : Text('Добавить прием пищи'),
+          : Text('Добавить прием'),
         actions: [
-          if (widget.meal != null) ...[
+          if (widget.medication != null) ...[
             IconButton(
               onPressed: () {
-                ref.read(currentDayProvider).removeMeal(widget.meal!.id);
+                ref.read(currentDayProvider).removeMedication(widget.medication!.id);
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Запись удалена')));
               },
@@ -115,7 +115,7 @@ class ScreenAddMealState extends ConsumerState<ScreenAddMeal> {
                 context: context,
                 barrierDismissible: false,
                 builder: (BuildContext context) {
-                  return AddFoodDialog();
+                  return AddMedicationDialog();
                 }
               ),
             icon: Icon(Icons.add, color: Colors.white)
@@ -125,16 +125,16 @@ class ScreenAddMealState extends ConsumerState<ScreenAddMeal> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           if (!_addedItems.isEmpty) {
-            List<FoodModel> addedFoodList = [];
+            List<DrugModel> addedDrugsList = [];
 
             for(var item in _addedItems) {
-              addedFoodList.add(await ref.read(foodStorageProvider).getFood(item.itemId));
+              addedDrugsList.add(await ref.read(drugStorageProvider).getDrug(item.itemId));
             }
             
-            if (widget.meal != null)
-              ref.read(currentDayProvider).editMeal(addedFoodList, widget.meal!.id);
+            if (widget.medication != null)
+              ref.read(currentDayProvider).editMedication(addedDrugsList, widget.medication!.id);
             else
-              ref.read(currentDayProvider).addMeal(addedFoodList);
+              ref.read(currentDayProvider).addMedication(addedDrugsList);
 
             Navigator.pop(context);
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Сохранено')));
@@ -166,7 +166,7 @@ class ScreenAddMealState extends ConsumerState<ScreenAddMeal> {
                 ),
                 child: _addedItems.isEmpty
                   ? Text(
-                      'Добавьте продукты на текущий прием',
+                      'Добавьте препараты на текущий прием',
                       style: TextStyle(
                         color: Color(0xFF818181).withOpacity(0.5)
                       ),
@@ -189,7 +189,7 @@ class ScreenAddMealState extends ConsumerState<ScreenAddMeal> {
                 ),
               ),
               SizedBox(height: 12),
-              if (_foodList.isEmpty || _recentItems.isEmpty) ...[
+              if (_drugList.isEmpty || _recentItems.isEmpty) ...[
                 Text(
                   'Список пуст',
                   style: TextStyle(

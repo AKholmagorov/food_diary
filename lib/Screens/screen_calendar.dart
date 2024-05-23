@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_diary/FoodDiaryDB.dart';
 import 'package:food_diary/Models/day_model.dart';
 import 'package:food_diary/Presentation/Widgets/calendar_day_box.dart';
 import 'package:food_diary/Presentation/Widgets/utils/get_month_name.dart';
-import 'package:sqlite3/sqlite3.dart' as sqlite;
+import 'package:food_diary/Riverpod/riverpod.dart';
 
-class ScreenCalendar extends StatefulWidget {
+class ScreenCalendar extends ConsumerStatefulWidget {
   const ScreenCalendar({super.key});
 
   @override
-  State<ScreenCalendar> createState() => _ScreenCalendarState();
+  ScreenCalendarState createState() => ScreenCalendarState();
 }
 
-class _ScreenCalendarState extends State<ScreenCalendar> {
+class ScreenCalendarState extends ConsumerState<ScreenCalendar> {
+  late FoodDiaryDB db;
   DateTime selectedDate = DateTime.now();
   int monthOffset = 1;
 
-  FoodDiaryDB db = FoodDiaryDB(db: sqlite.sqlite3.open('food_diary_db'));
+  @override
+  void initState() {
+    super.initState();
+    db = ref.read(databaseProvider);
+  }
 
   @override
   Widget build(BuildContext context) {

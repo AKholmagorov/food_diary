@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_diary/Models/meal_model.dart';
+import 'package:food_diary/Models/medication_model.dart';
 import 'package:food_diary/Riverpod/riverpod.dart';
 import 'package:food_diary/Screens/screen_add_meal.dart';
 
-import '../../../../Screens/screen_add_drug.dart';
+import '../../../../Screens/screen_add_medication.dart';
 
 class NumberBox extends ConsumerStatefulWidget {
   const NumberBox(
@@ -40,12 +41,16 @@ class NumberBoxState extends ConsumerState<NumberBox> {
           if (!_isFilled) {
             Navigator.push(context, MaterialPageRoute(builder: (context) => widget.destination));
           } else {
-            if (widget.destination is ScreenAddMeal) {
-              MealModel meal = ref.read(currentDayProvider).meals[widget.itemNumber-1];
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ScreenAddMeal(meal: meal)));
+              if (widget.destination is ScreenAddMeal) {
+                MealModel meal = ref.read(currentDayProvider).meals[widget.itemNumber-1];
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ScreenAddMeal(meal: meal)));
+              }
+            else {
+              if (widget.destination is ScreenAddMedication) {
+                MedicationModel medication = ref.read(currentDayProvider).medications[widget.itemNumber-1];
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ScreenAddMedication(medication: medication)));
+              }
             }
-            else
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ScreenAddDrug(isEditMode: true)));
           }
         });
       },

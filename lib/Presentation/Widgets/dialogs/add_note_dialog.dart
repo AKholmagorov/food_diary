@@ -44,6 +44,8 @@ class AddNoteDialogState extends ConsumerState<AddNoteDialog> {
       ), 
       onSave: () {
         ref.read(currentDayProvider).updateNoteText(_controller.text);
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Сохранено')));
       },
     );
   }

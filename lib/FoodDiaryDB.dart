@@ -1,4 +1,5 @@
 import 'package:food_diary/Models/day_model.dart';
+import 'package:food_diary/Models/drug_model.dart';
 import 'package:food_diary/Models/food_model.dart';
 import 'package:sqlite3/sqlite3.dart';
 import 'package:intl/intl.dart';
@@ -37,10 +38,10 @@ class FoodDiaryDB {
       return null;
   }
 
-  Future<List<FoodModel>> getAllMeal() async {
+  List<FoodModel> getAllFood() {
     List<FoodModel> foodList = [];
     
-    var resultSet = await db.select('''
+    var resultSet = db.select('''
       SELECT * FROM food;
     ''');
 
@@ -49,5 +50,19 @@ class FoodDiaryDB {
     }
 
     return foodList;
+  }
+
+  List<DrugModel> getAllDrugs() {
+    List<DrugModel> drugsList = [];
+    
+    var resultSet = db.select('''
+      SELECT * FROM drugs;
+    ''');
+
+    for (var row in resultSet) {
+      drugsList.add(DrugModel.fromMap(row));
+    }
+
+    return drugsList;
   }
 }

@@ -5,7 +5,7 @@ import 'package:food_diary/Presentation/Widgets/tiles/extras/fd_colorful_slider.
 import 'package:food_diary/Presentation/Widgets/tiles/extras/number_box.dart';
 import 'package:food_diary/Presentation/Widgets/utils/symptom_types.dart';
 import 'package:food_diary/Riverpod/riverpod.dart';
-import 'package:food_diary/Screens/screen_add_drug.dart';
+import 'package:food_diary/Screens/screen_add_medication.dart';
 import 'package:food_diary/Screens/screen_add_meal.dart';
 import 'package:food_diary/Presentation/Widgets/dialogs/add_note_dialog.dart';
 import 'package:food_diary/Presentation/Widgets/tiles/fd_expansion_tile.dart';
@@ -41,6 +41,7 @@ class ScreenHomeState extends ConsumerState<ScreenHome> {
 
     DayModel? _selectedDay = ref.watch(currentDayProvider).currentDay;
     int mealCount = ref.watch(currentDayProvider).meals.length;
+    int medicationCount = ref.watch(currentDayProvider).medications.length;
     if (_selectedDay == null) {
       return Scaffold(
         body: Center(
@@ -181,7 +182,7 @@ class ScreenHomeState extends ConsumerState<ScreenHome> {
                           mealCount+1,
                           (index) {
                             return NumberBox(
-                              isFilled: index == ref.watch(currentDayProvider).meals.length ? false : true, 
+                              isFilled: index == mealCount ? false : true, 
                               itemNumber: index+1, 
                               destination: ScreenAddMeal()
                             );
@@ -204,7 +205,19 @@ class ScreenHomeState extends ConsumerState<ScreenHome> {
                     runSpacing: 10,
                     alignment: WrapAlignment.start,
                     children: [
-                      NumberBoxList(screen: ScreenAddDrug()),
+                      NumberBoxList(
+                        screen: ScreenAddMeal(),
+                        children: List.generate(
+                          medicationCount+1,
+                          (index) {
+                            return NumberBox(
+                              isFilled: index == medicationCount ? false : true, 
+                              itemNumber: index+1, 
+                              destination: ScreenAddMedication()
+                            );
+                          }
+                        ),
+                      ),
                     ]
                   )
                 ),

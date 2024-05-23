@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_diary/Presentation/Widgets/tiles/extras/number_box.dart';
+import 'package:food_diary/Riverpod/riverpod.dart';
 
-class NumberBoxList extends StatefulWidget {
+class NumberBoxList extends ConsumerStatefulWidget {
   const NumberBoxList({super.key, this.children, required this.screen});
 
   final List<NumberBox>? children;
   final Widget screen;
 
   @override
-  State<NumberBoxList> createState() => _NumberBoxListState();
+  NumberBoxListState createState() => NumberBoxListState();
 }
 
-class _NumberBoxListState extends State<NumberBoxList> {
+class NumberBoxListState extends ConsumerState<NumberBoxList> {
   late List<NumberBox> _mealNumberBoxList;
 
   @override
@@ -24,16 +26,9 @@ class _NumberBoxListState extends State<NumberBoxList> {
     }
   }
 
-/*   void AddItem() {
-    setState(() {
-      if (_mealNumberBoxList.length < 8) {
-        _mealNumberBoxList.add(MealNumberBox(isFilled: false, addItem: AddItem, itemNumber: _mealNumberBoxList.length + 1, destination: widget.screen));
-      }
-    });
-  } */
-
   @override
   Widget build(BuildContext context) {
+    print('rebuild_number_box_list');
     return Wrap(
       spacing: 10,
       runSpacing: 10,

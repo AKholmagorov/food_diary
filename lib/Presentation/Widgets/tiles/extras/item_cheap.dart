@@ -7,12 +7,14 @@ class ItemCheap extends StatelessWidget {
     required this.label, 
     this.onTap, 
     this.editDialog, 
+    this.editModeEnabled = true, 
   });
 
   final int itemId;
   final String label;
   final void Function(int, String)? onTap;
   final Widget? editDialog;
+  final bool editModeEnabled;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class ItemCheap extends StatelessWidget {
         }
       },
       onLongPress: () {
-        if (editDialog != null) {
+        if (editDialog != null && editModeEnabled) {
           showDialog(
             context: context,
             barrierDismissible: false,

@@ -7,7 +7,8 @@ class FoodDiaryDialog extends StatelessWidget {
     required this.content,
     this.isEdit = true,
     this.isReadOnly = false,
-    required this.onSave
+    required this.onSave, 
+    this.onDelete
   });
 
   final String title;
@@ -15,6 +16,7 @@ class FoodDiaryDialog extends StatelessWidget {
   final bool isEdit;
   final bool isReadOnly;
   final void Function() onSave;
+  final void Function()? onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +73,10 @@ class FoodDiaryDialog extends StatelessWidget {
               Container(width: 0.5, color: Color(0xFF818181)),
               isEdit
                 ? FlexButton(
-                    onTap: () => Navigator.pop(context),
+                    onTap: () {
+                      if (onDelete != null)
+                        onDelete!();
+                    },
                     icon: Icons.delete_outline_rounded
                   )
                 : SizedBox(),

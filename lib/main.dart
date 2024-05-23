@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_diary/Presentation/Widgets/fd_nav_bar.dart';
 import 'package:food_diary/Presentation/Widgets/utils/theme_constants.dart';
 
-void main() {
+void main() async {
   runApp(ProviderScope(child: AppEntryPoint()));
 }
 

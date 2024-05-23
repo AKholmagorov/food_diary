@@ -8,7 +8,7 @@ class AddFoodDialog extends ConsumerStatefulWidget {
   AddFoodDialog({
     super.key,
     this.foodID,
-    this.isReadOnly = false
+    this.isReadOnly = false,
   });
 
   final int? foodID;
@@ -102,9 +102,24 @@ class AddFoodDialogState extends ConsumerState<AddFoodDialog> {
       ),
       onSave: () {
         if (_formKey.currentState!.validate()) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Продукт создан')));
-          Navigator.pop(context);
+          if (foodModel == null) {
+            ref.read(foodStorageProvider).addFood(_nameController.text, _compositionController.text);
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Продукт создан')));
+            Navigator.pop(context);
+          }
+          else {
+            ref.read(foodStorageProvider).editFood(foodModel!.id, _nameController.text, _compositionController.text);
+            ref.read(currentDayProvider).loadMeal(); // update food names in meals
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Изменения сохранены')));
+            Navigator.pop(context);
+          }
         }
+      },
+      onDelete: () {
+        ref.read(foodStorageProvider).removeFood(foodModel!.id);
+        ref.read(currentDayProvider).loadMeal(); // update food names in meals
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Продукт удален')));
+        Navigator.pop(context);
       },
     );
   }
