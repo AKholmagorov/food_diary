@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:food_diary/FoodDiaryDB.dart';
-import 'package:food_diary/Models/day_model.dart';
+import 'package:food_diary/food_diary_db.dart';
 import 'package:food_diary/Presentation/Widgets/calendar_day_box.dart';
 import 'package:food_diary/Presentation/Widgets/utils/get_month_name.dart';
 import 'package:food_diary/Riverpod/riverpod.dart';
@@ -41,8 +40,10 @@ class ScreenCalendarState extends ConsumerState<ScreenCalendar> {
             itemBuilder: (context, index) {
               // if (index + 1 <= DateTime.now().day || selectedDate.month < DateTime.now().month || selectedDate.year < DateTime.now().year)
               // print(DateTime(selectedDate.year, selectedDate.month, index + 1));
-
-              return FutureBuilder<DayModel?>(
+              var day = db.getDay(DateTime(selectedDate.year, selectedDate.month, index + 1));
+              return CalendarDayBox(day: day, dayNumber: index + 1);
+               
+              /* return FutureBuilder<DayModel?>(
                 future: db.getDay(DateTime(selectedDate.year, selectedDate.month, index + 1)),
                 builder: (BuildContext context, AsyncSnapshot<DayModel?> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting)
@@ -50,7 +51,7 @@ class ScreenCalendarState extends ConsumerState<ScreenCalendar> {
 
                   return CalendarDayBox(day: snapshot.data, dayNumber: index + 1);
                 },
-              );
+              ); */
             },
           )
         ),

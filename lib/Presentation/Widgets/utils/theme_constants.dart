@@ -70,4 +70,8 @@ ThemeData foodDiaryDarkTheme = ThemeData(
   progressIndicatorTheme: ProgressIndicatorThemeData(
     color: Colors.black,
   ),
+
+  snackBarTheme: SnackBarThemeData(
+    behavior: SnackBarBehavior.floating,
+  )
 );

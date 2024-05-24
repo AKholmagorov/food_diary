@@ -3,15 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_diary/Models/day_model.dart';
 import 'package:food_diary/Presentation/Widgets/tiles/extras/fd_colorful_slider.dart';
 import 'package:food_diary/Presentation/Widgets/tiles/extras/number_box.dart';
+import 'package:food_diary/Presentation/Widgets/utils/get_month_name.dart';
 import 'package:food_diary/Presentation/Widgets/utils/symptom_types.dart';
 import 'package:food_diary/Riverpod/riverpod.dart';
-import 'package:food_diary/Screens/screen_add_medication.dart';
-import 'package:food_diary/Screens/screen_add_meal.dart';
+import 'package:food_diary/Presentation/Screens/screen_add_medication.dart';
+import 'package:food_diary/Presentation/Screens/screen_add_meal.dart';
 import 'package:food_diary/Presentation/Widgets/dialogs/add_note_dialog.dart';
 import 'package:food_diary/Presentation/Widgets/tiles/fd_expansion_tile.dart';
 import 'package:food_diary/Presentation/Widgets/tiles/fd_tile.dart';
 
-import '../Presentation/Widgets/tiles/extras/number_box_list.dart';
+import '../Widgets/tiles/extras/number_box_list.dart';
 
 class ScreenHome extends ConsumerStatefulWidget {
   const ScreenHome({
@@ -50,13 +51,20 @@ class ScreenHomeState extends ConsumerState<ScreenHome> {
       );
     }
 
+    String replaceLastLetter(int month) {
+      String monthName = getMonthName(month);
+      if (month == 3 || month == 8)
+        return monthName + 'а';
+      else
+        return monthName.substring(0, monthName.length - 1) + 'я';
+    }
+
     return Scaffold(
       appBar: widget.isEditMode
         ? AppBar(
-            title: Text('Редактировать'),
-            actions: [
-              IconButton(onPressed: (){}, icon: Icon(Icons.done))
-            ],
+            title: Text(
+              '${_selectedDay.date.day} ${replaceLastLetter(_selectedDay.date.month)} (архив)'
+            ),
           )
         : null,
       body: SingleChildScrollView(

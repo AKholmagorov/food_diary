@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_diary/FoodDiaryDB.dart';
+import 'package:food_diary/food_diary_db.dart';
 import 'package:food_diary/Models/food_model.dart';
 
 class FoodStorageNotifier extends ChangeNotifier {

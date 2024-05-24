@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:food_diary/FoodDiaryDB.dart';
+import 'package:food_diary/Riverpod/report_model_notifier.dart';
+import 'package:food_diary/food_diary_db.dart';
 import 'package:food_diary/Riverpod/day_model_notifier.dart';
 import 'package:food_diary/Riverpod/drug_storage_notifier.dart';
 import 'package:food_diary/Riverpod/food_storage_notifier.dart';
@@ -23,7 +24,7 @@ final databaseProvider = Provider<FoodDiaryDB>((ref) {
 
 final currentDayProvider = ChangeNotifierProvider<DayModelNotifier>((ref) {
   final db = ref.read(databaseProvider);
-  return DayModelNotifier(db, DateTime.now());
+  return DayModelNotifier(db, DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day-1));
 });
 
 final foodStorageProvider = ChangeNotifierProvider<FoodStorageNotifier>((ref) {
@@ -34,4 +35,9 @@ final foodStorageProvider = ChangeNotifierProvider<FoodStorageNotifier>((ref) {
 final drugStorageProvider = ChangeNotifierProvider<DrugStorageNotifier>((ref) {
   final db = ref.read(databaseProvider);
   return DrugStorageNotifier(db);
+});
+
+final reportProvider = ChangeNotifierProvider<ReportModelNotifier>((ref) {
+  final db = ref.read(databaseProvider);
+  return ReportModelNotifier(db);
 });

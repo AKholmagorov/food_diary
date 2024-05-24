@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_diary/Models/day_model.dart';
 import 'package:food_diary/Riverpod/riverpod.dart';
-import 'package:food_diary/Screens/screen_day_info.dart';
 import 'package:food_diary/Presentation/Widgets/utils/day_types.dart';
+import 'package:food_diary/Presentation/Screens/screen_home.dart';
 
 class CalendarDayBox extends ConsumerStatefulWidget {
   const CalendarDayBox({
@@ -34,7 +34,7 @@ class CalendarDayBoxState extends ConsumerState<CalendarDayBox> {
       DayType.good: Color(0xFF75B76A),
       DayType.not_good: Color(0xFFF9C74F),
       DayType.bad: Color(0xFFE63946),
-      DayType.empty: Color(0xFFD3D3D3),
+      DayType.empty: Colors.grey,
       null: Color(0xFFF1F1F1)
     };
     return ElevatedButton(
@@ -49,7 +49,10 @@ class CalendarDayBoxState extends ConsumerState<CalendarDayBox> {
             context,
             MaterialPageRoute(
               builder: (BuildContext context) {
-                return ScreenDayInfo();
+                return ScreenHome(
+                  isEditMode: true,
+                  selectedDayDate: _currentDay!.date,
+                );
               }
             )
           );

@@ -1,6 +1,7 @@
 import 'package:food_diary/Models/day_model.dart';
 import 'package:food_diary/Models/drug_model.dart';
 import 'package:food_diary/Models/food_model.dart';
+import 'package:food_diary/Models/report_model.dart';
 import 'package:sqlite3/sqlite3.dart';
 import 'package:intl/intl.dart';
 
@@ -26,8 +27,8 @@ class FoodDiaryDB {
     return DayModel.fromMap(result.first);
   }
 
-  Future<DayModel?> getDay(DateTime date) async {
-    var result = await db.select('''
+  DayModel? getDay(DateTime date) {
+    var result = db.select('''
       SELECT * FROM days 
       WHERE date = '${_dateToString(date)}';
     ''');
@@ -50,6 +51,20 @@ class FoodDiaryDB {
     }
 
     return foodList;
+  }
+
+  List<ReportModel> getAllReports() {
+    List<ReportModel> reportList = [];
+    
+    var resultSet = db.select('''
+      SELECT * FROM reports
+    ''');
+
+    for (var row in resultSet) {
+      reportList.add(ReportModel.fromMap(row));
+    }
+
+    return reportList;
   }
 
   List<DrugModel> getAllDrugs() {

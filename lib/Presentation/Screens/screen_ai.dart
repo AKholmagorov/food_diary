@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:food_diary/Screens/screen_report_history.dart';
-import 'package:food_diary/Screens/screen_report_generation.dart';
+import 'package:food_diary/Presentation/Screens/screen_report_history.dart';
+import 'package:food_diary/Presentation/Screens/screen_report_generation.dart';
 
 class ScreenAI extends StatefulWidget {
   const ScreenAI({super.key});
@@ -13,7 +13,7 @@ class _ScreenAIState extends State<ScreenAI> {
   int _currentPage = 0;
   List<Widget> _pages = [
     ScreenReportGeneration(),
-    ScreenReportHistory.ScreenReportHistory()
+    ScreenReportHistory()
   ];  
 
   void changePage(int index) => setState(() => _currentPage = index);

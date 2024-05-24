@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_diary/Models/meal_model.dart';
 import 'package:food_diary/Models/medication_model.dart';
 import 'package:food_diary/Riverpod/riverpod.dart';
-import 'package:food_diary/Screens/screen_add_meal.dart';
+import 'package:food_diary/Presentation/Screens/screen_add_meal.dart';
 
-import '../../../../Screens/screen_add_medication.dart';
+import '../../../Screens/screen_add_medication.dart';
 
 class NumberBox extends ConsumerStatefulWidget {
   const NumberBox(

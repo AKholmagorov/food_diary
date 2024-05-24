@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_diary/Models/day_model.dart';
 import 'package:food_diary/Riverpod/riverpod.dart';
-import 'package:food_diary/Screens/screen_home.dart';
+import 'package:food_diary/Presentation/Screens/screen_home.dart';
 import 'package:food_diary/Presentation/Widgets/content_box.dart';
 import 'package:food_diary/Presentation/Widgets/dialogs/add_meal_dialog.dart';
 import 'package:food_diary/Presentation/Widgets/tiles/extras/item_cheap.dart';
 import 'package:food_diary/Presentation/Widgets/utils/get_month_name.dart';
 
-import '../Presentation/Widgets/tiles/fd_tile.dart';
+import '../Widgets/tiles/fd_tile.dart';
 
 class ScreenDayInfo extends ConsumerWidget {
   const ScreenDayInfo({super.key});
